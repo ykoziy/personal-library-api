@@ -10,7 +10,7 @@
 
 var expect = require('chai').expect;
 
-const Issue = require('../models/Book');
+const Book = require('../models/Book');
 const mongoose = require('mongoose');
 
 module.exports = function (app) {
@@ -22,8 +22,16 @@ module.exports = function (app) {
     })
 
     .post(function (req, res){
-      var title = req.body.title;
-      //response will contain new book object including atleast _id and title
+      let title = req.body.title;
+      if (!title) {
+        return res.status(422).send('missing title');
+      }
+
+      let newBook = new Book(req.body);
+      newBook.save((err, data) => {
+        if (err) return res.status(500).json({error: err.message});
+        res.json(data);
+      });
     })
 
     .delete(function(req, res){
