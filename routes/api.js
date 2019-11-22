@@ -48,7 +48,7 @@ module.exports = function (app) {
   app.route('/api/books/:id')
     .get(function (req, res){
       let bookID = req.params.id;
-      if (!mongoose.Types.ObjectId.isValid(bookID)) {
+      if (!mongoose.Types.ObjectId.isValid(bookID) || !bookID) {
         return res.status(422).json({error: `_id error`});
       }
 
@@ -62,7 +62,7 @@ module.exports = function (app) {
     .post(function(req, res){
       let bookID = req.params.id;
       let comment = req.body.comment;
-      if (!mongoose.Types.ObjectId.isValid(bookID)) {
+      if (!mongoose.Types.ObjectId.isValid(bookID) || !bookID) {
         return res.status(422).json({error: `_id error`});
       }
 
@@ -78,7 +78,7 @@ module.exports = function (app) {
 
     .delete(function(req, res){
       let bookID = req.params.id;
-      if (!mongoose.Types.ObjectId.isValid(bookID)) {
+      if (!mongoose.Types.ObjectId.isValid(bookID) || !bookID) {
         return res.status(422).json({error: `_id error`});
       }
 
