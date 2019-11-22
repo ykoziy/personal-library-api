@@ -60,14 +60,32 @@ module.exports = function (app) {
     })
 
     .post(function(req, res){
-      var bookid = req.params.id;
-      var comment = req.body.comment;
-      //json res format same as .get
+      let bookID = req.params.id;
+      let comment = req.body.comment;
+      if (!mongoose.Types.ObjectId.isValid(bookID)) {
+        return res.status(422).json({error: `_id error`});
+      }
+
+      Book.findByIdAndUpdate(
+        bookID,
+        {$push: {comments: comment}, $inc: {commentcount: 1}},
+        {new: true},
+        (err, data) => {
+          if (err) return res.status(500).json({error: `Something went wrong`});
+          res.json(data);
+      });
     })
 
     .delete(function(req, res){
-      var bookid = req.params.id;
-      //if successful response will be 'delete successful'
+      let bookID = req.params.id;
+      if (!mongoose.Types.ObjectId.isValid(bookID)) {
+        return res.status(422).json({error: `_id error`});
+      }
+
+      Book.deleteOne({_id: bookID}, (err) => {
+        if (err) return res.status(500).json({error: `Something went wrong`});
+        res.send('delete successful');
+      })
     });
 
 };
