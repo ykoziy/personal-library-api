@@ -117,7 +117,18 @@ suite('Functional Tests', function() {
     suite('POST /api/books/[id] => add comment/expect book object with id', function(){
 
       test('Test POST /api/books/[id] with comment', function(done){
-        //done();
+        chai.request(server)
+         .post('/api/books/'+bookID)
+         .send({comment: "It's the possibility of having a dream come true that makes life interesting."})
+         .end(function(err, res){
+           console.log('done');
+           assert.equal(res.status, 200);
+           assert.equal(res.body._id, bookID);
+           assert.isArray(res.body.comments, 'response should have an array of comments');
+           assert.equal(res.body.commentcount, 1);
+           assert.equal(res.body.comments[0], "It's the possibility of having a dream come true that makes life interesting.");
+           done();
+         });
       });
 
     });
