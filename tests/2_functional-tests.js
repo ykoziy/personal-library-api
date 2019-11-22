@@ -88,11 +88,27 @@ suite('Functional Tests', function() {
     suite('GET /api/books/[id] => book object with [id]', function(){
 
       test('Test GET /api/books/[id] with id not in db',  function(done){
-        //done();
+         chai.request(server)
+          .get('/api/books/111111111111111111111111')
+          .end(function(err, res){
+            assert.equal(res.status, 200);
+            assert.equal(res.text, 'no book exists');
+            done();
+          });
       });
-
+      //to retrieve a single
+      //object of a book containing title, _id, & an array of comments
+      //(empty array if no comments present).
       test('Test GET /api/books/[id] with valid id in db',  function(done){
-        //done();
+         chai.request(server)
+          .get('/api/books/'+bookID)
+          .end(function(err, res){
+            assert.equal(res.status, 200);
+            assert.equal(res.body._id, bookID);
+            assert.equal(res.body.title, 'The Alchemist');
+            assert.isArray(res.body.comments, 'response should have an array of comments');
+            done();
+          });
       });
 
     });
