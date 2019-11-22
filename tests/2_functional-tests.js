@@ -121,7 +121,6 @@ suite('Functional Tests', function() {
          .post('/api/books/'+bookID)
          .send({comment: "It's the possibility of having a dream come true that makes life interesting."})
          .end(function(err, res){
-           console.log('done');
            assert.equal(res.status, 200);
            assert.equal(res.body._id, bookID);
            assert.isArray(res.body.comments, 'response should have an array of comments');
