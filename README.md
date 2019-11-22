@@ -6,6 +6,7 @@ Allows to store books in the database along with any book comments.
 | ------------ | -------------- | ---------------- | ----------------- |
 | **/api/books** | list all books | add new book | delete all books |
 |  **/api/books/bookID\*** | show book | add comment | delete |
+
 \* **bookID** - mongoDB _id a String of 12 bytes.
 
 #### Live Demo
